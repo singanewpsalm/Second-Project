@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Playground 1.0</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to top, #6ec850 40%, #87ceeb 40%);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .playground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .slide {
+      position: absolute;
+      bottom: 60px;
+      left: 12%;
+      width: 180px;
+      height: 220px;
+      background: linear-gradient(135deg, #d2691e, #8b4513);
+      clip-path: polygon(0 0, 100% 0, 100% 20%, 0 100%);
+      border-radius: 5px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .robot-slide {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+      animation: slideMove 4s infinite ease-in-out;
+    }
+
+    @keyframes slideMove {
+      0%   { bottom: 200px; left: 12%; transform: rotate(0deg);}
+      50%  { bottom: 70px; left: 28%; transform: rotate(10deg);}
+      100% { bottom: 200px; left: 12%; transform: rotate(0deg);}
+    }
+
+    .swing-frame {
+      position: absolute;
+      bottom: 60px;
+      right: 18%;
+      width: 140px;
+      height: 200px;
+      border: 5px solid #444;
+      border-bottom: none;
+      border-radius: 5px;
+      background: linear-gradient(to bottom, #654321, #987654);
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+    }
+
+    .swing {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 150px;
+      background: #333;
+      transform-origin: top;
+      animation: swingMotion 3s infinite ease-in-out;
+      border-radius: 2px;
+    }
+
+    @keyframes swingMotion {
+      0%   { transform: rotate(-25deg); }
+      50%  { transform: rotate(25deg); }
+      100% { transform: rotate(-25deg); }
+    }
+
+    .robot-swing {
+      position: absolute;
+      bottom: -50px;
+      left: -25px;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+    }
+
+    .merry {
+      position: absolute;
+      bottom: 60px;
+      left: 42%;
+      width: 140px;
+      height: 140px;
+      border: 5px solid #b22222;
+      border-radius: 50%;
+      animation: spin 6s linear infinite;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+      background: radial-gradient(circle, #ff7f50 0%, #b22222 100%);
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .robot-merry {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+      transform: translateX(-50%);
+    }
+
+    header {
+      padding: 1rem;
+      background-color: rgba(30,30,30,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #333;
+      z-index: 2;
+      position: relative;
+    }
+
+    header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .editor-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      color: #ffffff;
+      border: none;
+      padding: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+    }
+
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.7rem 1.5rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #3e8e41;
+      transform: translateY(-2px);
+    }
+
+    button.secondary {
+      background: #2196F3;
+    }
+
+    button.secondary:hover {
+      background: #0b7dda;
+    }
+
+    button.warning {
+      background: #ff9800;
+    }
+
+    button.warning:hover {
+      background: #e68a00;
+    }
+
+    .word-counter {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    footer {
+      background: rgba(30,30,30,0.9);
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      z-index: 2;
+      position: relative;
+      color: white;
+    }
+
+    footer a {
+      margin-left: 10px;
+      display: inline-block;
+      color: #4CAF50;
+      text-decoration: none;
+      transition: transform 0.2s;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      transform: scale(1.1);
+      text-decoration: underline;
+    }
+
+    .status-message {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      display: none;
+      font-weight: bold;
+    }
+    
+    .success {
+      background-color: #4CAF50;
+      color: white;
+      display: block;
+    }
+    
+    .error {
+      background-color: #f44336;
+      color: white;
+      display: block;
+    }
+
+    .info {
+      background-color: #2196F3;
+      color: white;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="playground">
+    <div class="slide"></div>
+    <div class="robot-slide"></div>
+
+    <div class="swing-frame">
+      <div class="swing">
+        <div class="robot-swing"></div>
+      </div>
+    </div>
+
+    <div class="merry">
+      <div class="robot-merry"></div>
+    </div>
+  </div>
+
+  <header>
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/playground.png" alt="Playground Icon">
+    <h1>HTML Playground 1.0</h1>
+  </header>
+
+  <main>
+    <div class="editor-container">
+      <textarea id="codeInput" placeholder="Paste or write your HTML code here..."></textarea>
+    </div>
+    
+    <div class="controls">
+      <button onclick="previewCode()">Preview Live</button>
+      <button onclick="exportCode()" class="secondary">Export as index.html</button>
+      <button onclick="clearCode()" class="warning">Clear</button>
+    </div>
+    
+    <div id="wordCount" class="word-counter">Word Count: 0</div>
+    <div id="statusMessage" class="status-message"></div>
+  </main>
+
+  <footer>
+    Designed by Titan Business Pros LLC | Phone: 405-998-7979
+    <a href="https://titanbusinesspros.github.io/NormanOklahoma/" target="_blank">Contact Us</a>
+  </footer>
+
+  <script>
+    function showStatus(message, type = "success") {
+      const statusElement = document.getElementById('statusMessage');
+      statusElement.textContent = message;
+      statusElement.className = 'status-message ' + type;
+      
+      setTimeout(() => {
+        statusElement.style.display = 'none';
+      }, 4000);
+    }
+
+    function previewCode() {
+      const code = document.getElementById("codeInput").value;
+      if (!code.trim()) {
+        showStatus('Please enter some code to preview', 'error');
+        return;
+      }
+      
+      try {
+        const newWindow = window.open();
+        newWindow.document.open();
+        newWindow.document.write(code);
+        newWindow.document.close();
+        showStatus('Preview opened in new window');
+      } catch (e) {
+        showStatus('Error opening preview: ' + e.message, 'error');
+      }
+    }
+
+    function exportCode() {
+      const code = document.getElementById("codeInput").value;
+      if (!code.trim()) {
+        showStatus('Please enter some code to export', 'error');
+        return;
+      }
+      
+      try {
+        const blob = new Blob([code], { type: 'text/html' });
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 100);
+        
+        showStatus('File exported successfully as index.html');
+        
+      } catch (e) {
+        showStatus('Error exporting file: ' + e.message, 'error');
+        console.error("Export error:", e);
+      }
+    }
+
+    function clearCode() {
+      document.getElementById("codeInput").value = '';
+      document.getElementById("wordCount").innerText = "Word Count: 0";
+      showStatus('Editor cleared', 'info');
+    }
+
+    let wordCountTimeout;
+    document.getElementById("codeInput").addEventListener("input", function() {
+      clearTimeout(wordCountTimeout);
+      wordCountTimeout = setTimeout(updateWordCount, 300);
+    });
+
+    function updateWordCount() {
+      const code = document.getElementById("codeInput").value;
+      const words = code.trim() === '' ? 0 : code.trim().split(/\s+/).length;
+      document.getElementById("wordCount").innerText = "Word Count: " + words;
+    }
+
+    document.getElementById("codeInput").value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #336699;
+            border-bottom: 2px solid #336699;
+            padding-bottom: 10px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to HTML Playground</h1>
+        <p>This is a sample page generated by the HTML Playground.</p>
+        <p>Try editing this code and then preview or export it!</p>
+        
+        <h2>Features</h2>
+        <ul>
+            <li>Real-time HTML editing</li>
+            <li>Live preview</li>
+            <li>Export functionality</li>
+            <li>Word count</li>
+        </ul>
+    </div>
+</body>
+</html>`;
+    
+    updateWordCount();
+    showStatus('Playground ready! Try exporting your code.', 'info');
+  </script>
+</body>
+</html>
